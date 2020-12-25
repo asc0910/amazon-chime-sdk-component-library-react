@@ -1,8 +1,11 @@
 // Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-import { DeviceType } from '../types';
+import { DeviceType, SelectedDeviceId } from '../types';
 import { Device, DefaultDeviceController } from 'amazon-chime-sdk-js';
+import VideoInputDevice from 'amazon-chime-sdk-js/build/devicecontroller/VideoInputDevice';
+import { isVideoTransformDevice } from 'amazon-chime-sdk-js/build/devicecontroller/VideoTransformDevice';
+import { DefaultVideoTransformDevice } from 'amazon-chime-sdk-js';
 
 export const getFormattedDropdownDeviceOptions = (
   jsonObject: any
@@ -14,7 +17,7 @@ export const getFormattedDropdownDeviceOptions = (
   return formattedJSONObject;
 };
 
-export const videoInputSelectionToDevice = (deviceId: string): Device => {
+export const videoInputSelectionToDevice = (deviceId: VideoInputDevice): VideoInputDevice => {
   if (deviceId === 'blue') {
     return DefaultDeviceController.synthesizeVideoDevice('blue');
   }
@@ -37,12 +40,23 @@ export const audioInputSelectionToDevice = (deviceId: string): Device => {
   return deviceId;
 };
 
+export const getSelectedVideoInputDeviceId = (videoInputDevice: VideoInputDevice): SelectedDeviceId => {
+  if (videoInputDevice === null) {
+    return null;
+  }
+  if(isVideoTransformDevice(videoInputDevice) && (videoInputDevice instanceof DefaultVideoTransformDevice)) {
+    return videoInputDevice.getInnerDevice() as SelectedDeviceId;
+  } else {
+    return videoInputDevice as SelectedDeviceId;
+  }  
+}
+
 export const isOptionActive = (
-  meetingManagerDeviceId: string | null,
+  meetingManagerDeviceId: SelectedDeviceId,
   currentDeviceId: string
 ): boolean => {
   if (currentDeviceId === 'none' && meetingManagerDeviceId === null) {
     return true;
   }
-  return currentDeviceId === meetingManagerDeviceId;
+  return getSelectedVideoInputDeviceId(meetingManagerDeviceId) === currentDeviceId
 };

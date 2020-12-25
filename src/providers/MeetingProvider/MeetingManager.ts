@@ -29,6 +29,7 @@ import {
   PostLogConfig,
   ManagerConfig
 } from './types';
+import VideoInputDevice from 'amazon-chime-sdk-js/build/devicecontroller/VideoInputDevice';
 
 export class MeetingManager implements AudioVideoObserver {
   meetingSession: DefaultMeetingSession | null = null;
@@ -62,9 +63,9 @@ export class MeetingManager implements AudioVideoObserver {
 
   selectedAudioInputDeviceObservers: ((deviceId: string | null) => void)[] = [];
 
-  selectedVideoInputDevice: string | null = null;
+  selectedVideoInputDevice: VideoInputDevice = null;
 
-  selectedVideoInputDeviceObservers: ((deviceId: string | null) => void)[] = [];
+  selectedVideoInputDeviceObservers: ((deviceId: VideoInputDevice) => void)[] = [];
 
   audioInputDevices: MediaDeviceInfo[] | null = null;
 
@@ -354,7 +355,7 @@ export class MeetingManager implements AudioVideoObserver {
     }
   };
 
-  selectVideoInputDevice = async (deviceId: string): Promise<void> => {
+  selectVideoInputDevice = async (deviceId: VideoInputDevice): Promise<void> => {
     try {
       const receivedDevice = videoInputSelectionToDevice(deviceId);
       if (receivedDevice === null) {

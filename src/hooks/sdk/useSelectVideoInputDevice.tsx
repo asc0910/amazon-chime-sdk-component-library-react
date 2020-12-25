@@ -5,13 +5,14 @@ import { useCallback } from 'react';
 
 import { useMeetingManager } from '../../providers/MeetingProvider';
 import { useLocalVideo } from '../../providers/LocalVideoProvider';
+import VideoInputDevice from 'amazon-chime-sdk-js/build/devicecontroller/VideoInputDevice';
 
 export const useSelectVideoInputDevice = () => {
   const { isVideoEnabled, toggleVideo } = useLocalVideo();
   const meetingManager = useMeetingManager();
 
   const selectVideo = useCallback(
-    async (deviceId: string) => {
+    async (deviceId: VideoInputDevice) => {
       if (deviceId === 'none' && isVideoEnabled) {
         await toggleVideo();
       }

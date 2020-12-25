@@ -8,7 +8,7 @@ import { Camera } from '../../ui/icons';
 import { useVideoInputs } from '../../../providers/DevicesProvider';
 import { useLocalVideo } from '../../../providers/LocalVideoProvider';
 import { DeviceConfig } from '../../../types';
-import { isOptionActive } from '../../../utils/device-utils';
+import { getSelectedVideoInputDeviceId, isOptionActive } from '../../../utils/device-utils';
 import { PopOverItemProps } from '../../ui/PopOver/PopOverItem';
 import useSelectVideoInputDevice from '../../../hooks/sdk/useSelectVideoInputDevice';
 
@@ -28,7 +28,7 @@ const VideoInputControl: React.FC<Props> = ({ label = 'Video' }) => {
 
   const dropdownOptions: PopOverItemProps[] = devices.map((device: any) => ({
     children: <span>{device.label}</span>,
-    checked: isOptionActive(selectedDevice, device.deviceId),
+    checked: isOptionActive(getSelectedVideoInputDeviceId(selectedDevice), device.deviceId),
     onClick: () => selectDevice(device.deviceId)
   }));
 

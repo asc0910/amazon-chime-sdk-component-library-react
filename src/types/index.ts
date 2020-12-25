@@ -1,6 +1,8 @@
 // Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+import VideoInputDevice from "amazon-chime-sdk-js/build/devicecontroller/VideoInputDevice";
+
 export type Direction = 'up' | 'right' | 'down' | 'left';
 
 export type DeviceType = {
@@ -13,6 +15,11 @@ export type SelectedDeviceId = string | null;
 export type DeviceTypeContext = {
   devices: DeviceType[];
   selectedDevice: SelectedDeviceId;
+};
+
+export type VideoDeviceTypeContext = {
+  devices: DeviceType[];
+  selectedDevice: VideoInputDevice;
 };
 
 export type DeviceConfig = {

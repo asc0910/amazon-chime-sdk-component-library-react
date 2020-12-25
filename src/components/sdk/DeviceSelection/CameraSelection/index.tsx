@@ -6,6 +6,7 @@ import React from 'react';
 import { useMeetingManager } from '../../../../providers/MeetingProvider';
 import { useVideoInputs } from '../../../../providers/DevicesProvider';
 import DeviceInput from '../DeviceInput';
+import { getSelectedVideoInputDeviceId } from '../../../../utils/device-utils';
 
 interface Props {
   /** The message that will be shown when no camera devices are found. */
@@ -30,7 +31,7 @@ export const CameraSelection: React.FC<Props> = ({
       label={label}
       onChange={selectVideoInput}
       devices={devices}
-      selectedDeviceId={selectedDevice}
+      selectedDeviceId={getSelectedVideoInputDeviceId(selectedDevice)}
       notFoundMsg={notFoundMsg}
     />
   );

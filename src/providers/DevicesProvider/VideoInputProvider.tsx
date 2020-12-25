@@ -12,11 +12,11 @@ import { DeviceChangeObserver } from 'amazon-chime-sdk-js';
 
 import { useAudioVideo } from '../AudioVideoProvider';
 import { useMeetingManager } from '../MeetingProvider';
-import { DeviceTypeContext, DeviceConfig } from '../../types';
+import { DeviceConfig, VideoDeviceTypeContext } from '../../types';
 import { VIDEO_INPUT } from '../../constants/additional-audio-video-devices';
 import { getFormattedDropdownDeviceOptions } from '../../utils/device-utils';
 
-const Context = createContext<DeviceTypeContext | null>(null);
+const Context = createContext<VideoDeviceTypeContext | null>(null);
 
 const VideoInputProvider: React.FC = ({ children }) => {
   const audioVideo = useAudioVideo();
@@ -69,7 +69,7 @@ const VideoInputProvider: React.FC = ({ children }) => {
     };
   }, [audioVideo]);
 
-  const contextValue: DeviceTypeContext = useMemo(
+  const contextValue: VideoDeviceTypeContext = useMemo(
     () => ({
       devices: videoInputs,
       selectedDevice: selectedVideoInputDevice
@@ -80,7 +80,7 @@ const VideoInputProvider: React.FC = ({ children }) => {
   return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 };
 
-const useVideoInputs = (props?: DeviceConfig): DeviceTypeContext => {
+const useVideoInputs = (props?: DeviceConfig): VideoDeviceTypeContext => {
   const needAdditionalIO = props && props.additionalDevices;
   const additionalIOJSON = props && VIDEO_INPUT;
   const context = useContext(Context);
